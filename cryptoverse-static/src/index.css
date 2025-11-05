@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* The main background gradient is now controlled in App.jsx 
+  to allow pages to override it if needed.
+  We'll set a base color here from the latest design.
+*/
+body {
+  background-color: #0D1120; /* navy-blue */
+}
+
+/* Glow/Hover classes from ALL versions */
+
+/* From v1 */
+.glow-cyan {
+  box-shadow: 0 0 5px #0dccf2, 0 0 10px #0dccf2;
+}
+
+.nav-link-hover:hover {
+  color: #0dccf2;
+  text-shadow: 0 0 8px rgba(13, 204, 242, 0.7);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 15px rgba(13, 204, 242, 0.2),
+    0 0 30px rgba(135, 96, 255, 0.1);
+}
+
+/* From v2 */
+.text-glow {
+  text-shadow: 0 0 8px currentColor;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 16px 2px var(--tw-shadow-color);
+}
+
+
+/* From v3 */
+.glow-border {
+  position: relative;
+  overflow: hidden;
+}
+.glow-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 1rem; /* From v3 HTML */
+  padding: 1px;
+  background: linear-gradient(120deg, #9F7AEA, #00FFFF);
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+.glow-border:hover::before {
+  opacity: 1;
+}
+
