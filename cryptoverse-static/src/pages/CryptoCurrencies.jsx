@@ -1,27 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
-// Inline static data (previously from ../data/mockData.js)
-const allCryptoData = [
-  { id: 1, name: 'Bitcoin', ticker: 'BTC', price: '$67,123.45', marketCap: '$1.32T', change: '+1.23%', isPositive: true },
-  { id: 2, name: 'Ethereum', ticker: 'ETH', price: '$3,456.78', marketCap: '$415B', change: '-0.56%', isPositive: false },
-  { id: 3, name: 'Tether', ticker: 'USDT', price: '$1.00', marketCap: '$110B', change: '+0.01%', isPositive: true },
-  { id: 4, name: 'Binance Coin', ticker: 'BNB', price: '$580.12', marketCap: '$85B', change: '+2.75%', isPositive: true },
-  { id: 5, name: 'Solana', ticker: 'SOL', price: '$150.99', marketCap: '$68B', change: '-3.10%', isPositive: false },
-  { id: 6, name: 'USD Coin', ticker: 'USDC', price: '$1.00', marketCap: '$32B', change: '+0.02%', isPositive: true },
-  { id: 7, name: 'XRP', ticker: 'XRP', price: '$0.48', marketCap: '$26B', change: '-1.15%', isPositive: false },
-  { id: 8, name: 'Dogecoin', ticker: 'DOGE', price: '$0.13', marketCap: '$19B', change: '+4.50%', isPositive: true },
-];
+import { useDispatch,useSelector} from 'react-redux';
+import { fetchCryptos } from '../features/cryptoSlice.jsx';
 
 
-0
+
+
 const Cryptocurrencies = ({ onCryptoSelect }) => {
+  const dispatch = useDispatch();
+  const {cryptos,status,error} = useSelector((state)=>state.crypto);
+  console.log(cryptos);
+
+  useEffect(()=>{
+    dispatch(fetchCryptos());
+},[dispatch]);
+
+  const navigate = useNavigate();
 
   
-const navigate = useNavigate();
+
+
   return (
+    
     <div className="font-display flex flex-col gap-6 sm:gap-8 pt-8 sm:pt-12">
+      
       <div className="flex flex-wrap justify-between gap-4 px-4">
         <div className="flex flex-col gap-2">
           <p className="text-white text-3xl sm:text-4xl font-black leading-tight tracking-[-0.033em]">
@@ -63,16 +66,16 @@ const navigate = useNavigate();
               </tr>
             </thead>
             <tbody>
-              {allCryptoData.map((coin) => (
+              {cryptos.map((coin) => (
                 <tr
                   key={coin.id}
                   onClick={() => navigate(`/cryptodetails`)}
                   className="border-t border-white/5 hover:bg-white/5 transition-colors cursor-pointer"
                 >
                   <td className="h-[72px] px-4 py-2 text-gray-400 text-sm font-normal leading-normal">{coin.uuid}</td>
-                  <td className="h-[72px] px-4 py-2 text-white text-sm font-medium leading-normal">{coin.name}
+                  <td className="h-[72px] flex items-center gap-4 px-4 py-2 text-white text-sm font-medium leading-normal">{coin.name}
 
-                    <span className="text-gray-500 ml-2">{coin.ticker}</span>
+                    <img width={20} height={20} src={coin.iconUrl} alt="" />
                   </td>
                   <td className="h-[72px] px-4 py-2 text-gray-300 text-sm font-normal leading-normal">{coin.price}</td>
                   <td className="h-[72px] px-4 py-2 text-gray-300 text-sm font-normal leading-normal">{coin.marketCap}</td>
